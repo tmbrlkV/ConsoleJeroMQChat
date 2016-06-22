@@ -2,7 +2,7 @@ package com.server.chat;
 
 import org.zeromq.ZMQ;
 
-public class Server {
+class Server {
     public static void main(String[] args) throws InterruptedException {
         System.out.println("start server");
 
