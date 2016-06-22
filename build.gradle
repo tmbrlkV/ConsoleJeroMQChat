@@ -1,0 +1,16 @@
+group 'chat-server'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'war'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile "org.zeromq:jeromq:0.3.5"
+    testCompile "junit:junit:4.12"
+}
