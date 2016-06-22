@@ -2,46 +2,57 @@ package com.server.chat;
 
 import static org.zeromq.ZMQ.*;
 
-public class ConnectionConfig {
+class ConnectionConfig {
     private Socket receiver;
     private Socket sender;
+    private Socket databaseRequester;
     private Poller poller;
 
-    public ConnectionConfig(Context context) {
+    ConnectionConfig(Context context) {
         init(context);
     }
 
     private void init(Context context) {
         receiveInit(context);
         sendInit(context);
-        pollerInit(context);
+        pollerInit();
+        databaseRequesterInit(context);
     }
 
     private void receiveInit(Context context) {
         receiver = context.socket(SUB);
-        receiver.connect("tcp://localhost:10000");
+        receiver.connect("tcp://10.66.162.89:10000");
         receiver.subscribe("".getBytes());
     }
 
     private void sendInit(Context context) {
         sender = context.socket(PUSH);
-        sender.connect("tcp://localhost:10001");
+        sender.connect("tcp://10.66.162.89:10001");
     }
 
-    private void pollerInit(Context context) {
+    private void pollerInit() {
         poller = new Poller(0);
         poller.register(receiver, Poller.POLLIN);
     }
 
-    public Socket getReceiver() {
+    private void databaseRequesterInit(Context context) {
+        databaseRequester = context.socket(REQ);
+        databaseRequester.connect("tcp://10.66.162.89:5555");
+    }
+
+    Socket getDatabaseRequester() {
+        return databaseRequester;
+    }
+
+    Socket getReceiver() {
         return receiver;
     }
 
-    public Poller getPoller() {
+    Poller getPoller() {
         return poller;
     }
 
-    public Socket getSender() {
+    Socket getSender() {
         return sender;
     }
 }

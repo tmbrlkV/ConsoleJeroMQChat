@@ -4,40 +4,61 @@ import java.util.Scanner;
 
 import static org.zeromq.ZMQ.*;
 
-public class Client {
+class Client {
     private final static Scanner scanner = new Scanner(System.in);
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws Exception {
         try (Context context = context(1)) {
             ConnectionConfig config = new ConnectionConfig(context);
 
-            System.out.print("What is your name? ");
-            String name = scanner.nextLine().trim();
+            System.out.print("What is your login? ");
+            String login = scanner.nextLine().trim();
+            System.out.print("What is your password? ");
+            String password = scanner.nextLine().trim();
 
+            AuthorisationController authorizationController = new AuthorisationController(config.getDatabaseRequester());
 
-            Thread send = new Thread(() -> {
+            if (authorizationController.authorization(login, password)) {
                 Socket sender = config.getSender();
-                sender.send(name + " has joined");
-                while (!Thread.currentThread().isInterrupted()) {
-                    String messageToSend = scanner.nextLine();
-                    sender.send(name + ": " + messageToSend);
-                }
-            });
-            send.start();
+                sender.send(login + " has joined");
 
-            Thread receive = new Thread(() -> {
-                while (!Thread.currentThread().isInterrupted()) {
-                    int events = config.getPoller().poll();
-                    if (events > 0) {
-                        String message = config.getReceiver().recvStr(0);
-                        System.out.println(message);
-                    }
-                }
-            });
-            receive.start();
+                Thread send = startSenderThread(login, config);
+                Thread receive = startReceiverThread(config);
 
-            send.join();
-            receive.join();
+                send.join();
+                receive.join();
+            } else {
+                System.out.println("Wrong input");
+            }
         }
+    }
+
+
+    private static Thread startSenderThread(String login, ConnectionConfig config) {
+        Thread send = new Thread(() -> {
+            Socket sender = config.getSender();
+            while (!Thread.currentThread().isInterrupted()) {
+                String messageToSend = scanner.nextLine();
+                sender.send(login + ": " + messageToSend);
+            }
+        });
+        send.start();
+        return send;
+    }
+
+    private static Thread startReceiverThread(ConnectionConfig config) {
+        Thread receive = new Thread(() -> {
+            Socket receiver = config.getReceiver();
+            Poller poller = config.getPoller();
+            while (!Thread.currentThread().isInterrupted()) {
+                int events = poller.poll();
+                if (events > 0) {
+                    String message = receiver.recvStr(0);
+                    System.out.println(message);
+                }
+            }
+        });
+        receive.start();
+        return receive;
     }
 }
