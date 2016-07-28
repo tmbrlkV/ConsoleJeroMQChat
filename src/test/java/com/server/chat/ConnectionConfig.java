@@ -21,13 +21,13 @@ class ConnectionConfig {
 
     private void receiveInit(Context context) {
         receiver = context.socket(SUB);
-        receiver.connect("tcp://10.66.162.89:10000");
+        receiver.connect("tcp://localhost:10000");
         receiver.subscribe("".getBytes());
     }
 
     private void sendInit(Context context) {
         sender = context.socket(PUSH);
-        sender.connect("tcp://10.66.162.89:10001");
+        sender.connect("tcp://localhost:10001");
     }
 
     private void pollerInit() {
@@ -37,7 +37,7 @@ class ConnectionConfig {
 
     private void databaseRequesterInit(Context context) {
         databaseRequester = context.socket(REQ);
-        databaseRequester.connect("tcp://10.66.162.89:5555");
+        databaseRequester.connect("tcp://10.66.160.204:11000");
     }
 
     Socket getDatabaseRequester() {
