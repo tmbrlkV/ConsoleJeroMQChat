@@ -1,8 +1,8 @@
-package com.server.json;
+package com.server.util.json;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.server.entity.User;
+import com.server.util.entity.User;
 
 import java.io.IOException;
 
@@ -20,7 +20,11 @@ public final class JsonObjectFactory {
         return mapper.writeValueAsString(object);
     }
 
-    public static <T> T getObjectFromJson(String json, Class<T> tClass) throws IOException {
-        return mapper.readValue(json, tClass);
+    public static <T> T getObjectFromJson(String json, Class<T> tClass) {
+        try {
+            return mapper.readValue(json, tClass);
+        } catch (IOException e) {
+            return null;
+        }
     }
 }

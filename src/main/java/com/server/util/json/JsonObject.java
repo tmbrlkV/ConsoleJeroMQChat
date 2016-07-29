@@ -1,9 +1,9 @@
-package com.server.json;
+package com.server.util.json;
 
 
-import com.server.entity.User;
+import com.server.util.entity.User;
 
-public class JsonObject {
+class JsonObject {
     private String command;
     private User user;
 

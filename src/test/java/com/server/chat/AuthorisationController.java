@@ -1,7 +1,7 @@
 package com.server.chat;
 
-import com.server.entity.User;
-import com.server.json.JsonObjectFactory;
+import com.server.util.entity.User;
+import com.server.util.json.JsonObjectFactory;
 import org.zeromq.ZMQ;
 
 class AuthorisationController {
@@ -20,6 +20,7 @@ class AuthorisationController {
         String response = databaseRequester.recvStr();
         user = JsonObjectFactory.getObjectFromJson(response, User.class);
 
+        assert user != null;
         return user.validation();
     }
 }
