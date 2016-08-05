@@ -17,5 +17,7 @@ ext {
 dependencies {
     compile "org.zeromq:jeromq:$jeromq"
     compile "com.fasterxml.jackson.core:jackson-databind:$jackson"
+    compile("ch.qos.logback:logback-classic:1.1.7")
+
     testCompile "junit:junit:$junit"
 }
