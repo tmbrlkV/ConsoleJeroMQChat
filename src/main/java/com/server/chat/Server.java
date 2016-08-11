@@ -8,7 +8,7 @@ class Server {
     private static Logger logger = LoggerFactory.getLogger(Server.class);
 
     public static void main(String[] args) throws InterruptedException {
-        logger.debug("Start chat server");
+        logger.debug("start server");
 
         try (ZMQ.Context context = ZMQ.context(1)) {
             ZMQ.Socket publisher = context.socket(ZMQ.PUB);
