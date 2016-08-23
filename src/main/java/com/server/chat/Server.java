@@ -3,6 +3,7 @@ package com.server.chat;
 import org.zeromq.ZMQ;
 
 class Server {
+
     public static void main(String[] args) throws InterruptedException {
         System.out.println("start server");
 
