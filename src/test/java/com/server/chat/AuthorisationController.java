@@ -1,8 +1,8 @@
 package com.server.chat;
 
-import com.server.util.entity.User;
-import com.server.util.json.JsonObjectFactory;
-import com.server.util.json.JsonProtocol;
+import com.chat.util.entity.User;
+import com.chat.util.json.JsonObjectFactory;
+import com.chat.util.json.JsonProtocol;
 import org.zeromq.ZMQ;
 
 class AuthorisationController {
