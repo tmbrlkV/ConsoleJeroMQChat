@@ -1,4 +1,4 @@
-package com.server.util.entity;
+package com.server.chat.util.entity;
 
 public class User  {
     private int id;
