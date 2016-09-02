@@ -5,6 +5,7 @@ apply plugin: 'java'
 
 repositories {
     mavenCentral()
+    maven { url "http://10.66.161.2:60000/repository/maven-public/" }
 }
 
 ext {
@@ -18,6 +19,7 @@ dependencies {
     compile "org.zeromq:jeromq:$jeromq"
     compile "com.fasterxml.jackson.core:jackson-databind:$jackson"
     compile "ch.qos.logback:logback-classic:$logback"
+    compile "edu.test:chat-utils:1.0-RELEASE"
 
     testCompile "junit:junit:$junit"
 }
